@@ -1,8 +1,10 @@
+const bcrypt = require('bcryptjs');
 const db = require('../dbConfig.js');
 
 module.exports = {
-  insert: user => {
-    return db('users').insert(user, 'id');
+  findAllUsers: () => {
+    return db('users')
+      .select('id', 'username', 'email', 'first_name', 'last_name');
   },
 
   findByEmail: email => {
@@ -23,14 +25,13 @@ module.exports = {
       .first();
   },
 
+  insert: user => {
+    return db('users').insert(user, 'id');
+  },
+
   update: (uid, changes) => {
     return db('users')
       .where('id', uid)
       .update(changes);
-  },
-
-  findAllUsers: () => {
-    return db('users')
-      .select('id', 'username', 'email', 'first_name', 'last_name');
   }
 };
